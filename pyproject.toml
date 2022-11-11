@@ -1,0 +1,111 @@
+[build-system]
+requires = [
+    "hatchling"
+]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "pytorch-transformers"
+version = "0.0.0"
+authors = [
+    {name = "Ben Tran"}
+]
+requires-python = ">=3.9"
+dependencies = []
+readme = "README.md"
+license = "MIT"
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+]
+
+
+[project.urls]
+Issues = "https://github.com/BenOnSocial/pytorch-transformers/issues"
+Source = "https://github.com/BenOnSocial/pytorch-transformers"
+
+
+[tool.hatch.envs.clean.scripts]
+all = [
+    """python -Bc 'import shutil; [shutil.rmtree(path=path, ignore_errors=True) for path in [".mypy_cache", ".pytest_cache", "build"]]'""",
+]
+
+
+[tool.hatch.envs.style]
+detached = true
+dependencies = [
+    "autoflake",
+    "bandit",
+    "black",
+    "flake8",
+    "isort",
+    "mypy[reports]",
+    "types-requests",
+]
+[tool.hatch.envs.style.scripts]
+check = [
+    "python -m mypy tests --html-report build/report/mypy",
+    "python -m flake8",
+    "bandit -r tests",
+]
+format = [
+    "python -m autoflake --in-place --recursive tests",
+    "python -m isort --atomic tests",
+    "python -m black tests",
+    "check",
+]
+
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest",
+    "transformers[torch]",     # Pretrained machine learning models and CPU-only support PyTorch
+]
+[tool.hatch.envs.test.scripts]
+all = [
+    "python -m pytest",
+]
+[[tool.hatch.envs.test.matrix]]
+python = ["39"]
+
+
+
+
+[tool.black]
+line-length = 120
+
+
+[tool.isort]
+profile = "black"
+skip = [
+    ".gitignore"
+]
+line_length = 120
+multi_line_output = 3
+
+
+[tool.mypy]
+python_version = 3.9
+disable_error_code = "valid-type"
+disallow_untyped_defs = true
+ignore_missing_imports = true
+pretty = true
+show_error_codes = true
+strict_optional = false
+warn_return_any = true
+warn_unused_configs = true
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+]

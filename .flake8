@@ -1,0 +1,10 @@
+# TODO: Migrate settings to pyproject.toml if the flake8 maintainer adds support for it.
+
+[flake8]
+count = True
+disable-noqa = False
+doctests = True
+filename = tests
+max-complexity = 4
+max-line-length = 120
+statistics = True
