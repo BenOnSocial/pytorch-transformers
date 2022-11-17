@@ -1,3 +1,4 @@
+emoji
 hatch
 pytest
 transformers[torch]

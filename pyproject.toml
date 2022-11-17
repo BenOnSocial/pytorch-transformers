@@ -67,12 +67,13 @@ format = [
 
 [tool.hatch.envs.test]
 dependencies = [
+    "emoji",    # Used by test_sentiment_analysis.py
     "pytest",
     "transformers[torch]",     # Pretrained machine learning models and CPU-only support PyTorch
 ]
 [tool.hatch.envs.test.scripts]
 all = [
-    "python -m pytest",
+    "python -m pytest -s",
 ]
 [[tool.hatch.envs.test.matrix]]
 python = ["310"]
