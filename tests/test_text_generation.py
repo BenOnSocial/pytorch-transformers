@@ -5,7 +5,7 @@ from enum import Enum, unique
 from typing import Callable, Dict, List
 
 import pytest
-from transformers import pipeline, set_seed
+from transformers import Pipeline, pipeline, set_seed
 
 
 # TODO: Switch to StrEnum when PyTorch supports Python 3.11.
@@ -18,6 +18,7 @@ class Model(str, Enum):
         return self.value
 
 
+@pytest.mark.skip("takes too long")
 class TestTextGeneration:
     output_dir: str = "build/test/TestTextGeneration"
 
@@ -49,8 +50,8 @@ class TestTextGeneration:
         ],
     )
     def test_long_form_text_generation(self, name: str, input_text: str, model: Model) -> None:
-        generator = pipeline(task="text-generation", model=model)
-        output = generator(input_text, min_length=100, max_length=500, num_return_sequences=5)
+        generator: Pipeline = pipeline(task="text-generation", model=model)
+        output: List[Dict] = generator(input_text, min_length=100, max_length=500, num_return_sequences=5)
 
         self._write_output(name=name, model=model, output=output, end_time=time.time())
 
