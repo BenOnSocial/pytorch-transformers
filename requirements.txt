@@ -1,4 +1,5 @@
 emoji
 hatch
+Pillow
 pytest
 transformers[torch]
